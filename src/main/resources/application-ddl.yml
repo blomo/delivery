@@ -1,0 +1,10 @@
+spring:
+  jpa:
+    properties:
+      jakarta:
+        persistence:
+          schema-generation:
+            scripts:
+              action: update
+              create-target: update.sql
+              create-source: metadata
