@@ -1,6 +1,7 @@
 package com.blomo.core.domain.services
 
 import com.blomo.core.domain.aggregates.courier.Courier
+import com.blomo.core.domain.aggregates.courier.CourierStatus
 import com.blomo.core.domain.aggregates.courier.Speed
 import com.blomo.core.domain.aggregates.courier.Transport
 import com.blomo.core.domain.aggregates.order.Order
@@ -26,6 +27,7 @@ class DispatchServieImplTest {
         val assignedCourier: Courier? = dispatchServie.dispatch(order, couriers)
 
         Assertions.assertThat(assignedCourier).isEqualTo(courier1)
+        Assertions.assertThat(assignedCourier?.status).isEqualTo(CourierStatus.BUSY)
     }
 
     @Test

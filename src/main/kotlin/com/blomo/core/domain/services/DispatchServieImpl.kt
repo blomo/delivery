@@ -12,5 +12,6 @@ class DispatchServieImpl : DispatchServie {
             ?.associateBy { it.calculateTimeToLocation(order.location) }
             ?.toSortedMap()
             ?.firstNotNullOf { it.value }
+            ?.apply { setBusy() }
 
 }
