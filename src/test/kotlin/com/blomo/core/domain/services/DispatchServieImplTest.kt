@@ -1,9 +1,10 @@
-package com.blomo.core.services
+package com.blomo.core.domain.services
 
 import com.blomo.core.domain.aggregates.courier.Courier
 import com.blomo.core.domain.aggregates.courier.Speed
 import com.blomo.core.domain.aggregates.courier.Transport
 import com.blomo.core.domain.aggregates.order.Order
+import com.blomo.core.domain.services.DispatchServieImpl
 import com.blomo.core.domain.shared.kernel.Location
 import java.util.*
 import org.assertj.core.api.Assertions

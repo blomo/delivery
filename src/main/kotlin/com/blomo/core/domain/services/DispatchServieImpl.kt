@@ -1,4 +1,4 @@
-package com.blomo.core.services
+package com.blomo.core.domain.services
 
 import com.blomo.core.domain.aggregates.courier.Courier
 import com.blomo.core.domain.aggregates.courier.CourierStatus
