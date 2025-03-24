@@ -37,5 +37,13 @@ class Courier(
     fun calculateTimeToLocation(location: Location): Float =
         (_location.distanceTo(location) / transport.speed.value).toFloat()
 
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other !is Courier) return false
+        return this.id == other.id
+    }
+
+    override fun hashCode(): Int = id.hashCode()
+
 }
 
