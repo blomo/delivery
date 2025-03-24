@@ -6,21 +6,17 @@ enum class CourierStatus(
     val id: Int, val description: String,
 ) {
     NOT_AVAILABLE(1, "NotAvailable"),
-    READY(2, "Ready"),
+    FREE(2, "Ready"),
     BUSY(3, "Busy");
 
-    fun isNotAvailable(status: CourierStatus): Boolean {
-        return NOT_AVAILABLE == status
-    }
+    fun isNotAvailable(status: CourierStatus): Boolean =
+        NOT_AVAILABLE == status
 
-    fun isReady(status: CourierStatus): Boolean {
-        return READY == status
-    }
+    fun isFree(status: CourierStatus): Boolean =
+        FREE == status
 
-    fun isBusy(status: CourierStatus): Boolean {
-        return BUSY == status
-    }
-
+    fun isBusy(status: CourierStatus): Boolean =
+        BUSY == status
 
     companion object {
         fun of(id: Int): OrderStatus? =
