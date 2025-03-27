@@ -12,8 +12,22 @@ class Order(
     var status: OrderStatus = OrderStatus.CREATED
         private set
 
-    lateinit var courierId: UUID
+    var courierId: UUID? = null
         private set
+
+    companion object {
+        fun fromDb(
+            id: UUID,
+            location: Location,
+            status: OrderStatus,
+            courierId: UUID?
+        ): Order {
+            val order = Order(id, location)
+            order.status = status
+            order.courierId = courierId
+            return order
+        }
+    }
 
     fun assigne(courier: Courier) {
         courierId = courier.id
@@ -25,5 +39,13 @@ class Order(
             status = OrderStatus.COMPLETED
         } else throw IllegalStateException("Order ${this.id} status is not ASSIGNED")
     }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other !is Order) return false
+        return this.id == other.id
+    }
+
+    override fun hashCode(): Int = id.hashCode()
 
 }
