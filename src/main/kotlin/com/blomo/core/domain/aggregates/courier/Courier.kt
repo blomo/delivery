@@ -21,6 +21,24 @@ class Courier(
         require(name.isNotBlank()) { "Courier name cannot be blank" }
     }
 
+    companion object {
+        fun fromDb(
+            id: UUID,
+            name: String,
+            transport: Transport,
+            location: Location,
+            status: CourierStatus
+        ): Courier {
+            val courier = Courier(name, transport, location)
+            courier::class.java.getDeclaredField("id").apply {
+                isAccessible = true
+                set(courier, id)
+            }
+            courier.status = status
+            return courier
+        }
+    }
+
 
     fun setFree() {
         this.status = CourierStatus.FREE
