@@ -6,5 +6,5 @@ import java.util.*
 import org.springframework.data.jpa.repository.JpaRepository
 
 interface CourierRepositoryInfr : JpaRepository<CourierEntity, UUID> {
-    fun getAllByStatus(status: CourierStatus = CourierStatus.FREE): List<CourierEntity>
+    fun findAllByStatus(status: CourierStatus = CourierStatus.FREE): List<CourierEntity>
 }

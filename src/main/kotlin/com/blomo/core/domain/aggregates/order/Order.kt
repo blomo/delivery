@@ -29,7 +29,7 @@ class Order(
         }
     }
 
-    fun assigne(courier: Courier) {
+    fun assign(courier: Courier) {
         courierId = courier.id
         status = OrderStatus.ASSIGNED
     }

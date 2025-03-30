@@ -1,14 +1,10 @@
 package com.blomo.integration.order
 
 import com.blomo.core.domain.aggregates.courier.Courier
-import com.blomo.core.domain.aggregates.courier.CourierStatus
 import com.blomo.core.domain.aggregates.courier.Speed
 import com.blomo.core.domain.aggregates.courier.Transport
 import com.blomo.core.domain.aggregates.order.Order
 import com.blomo.core.domain.shared.kernel.Location
-import com.blomo.infrastructure.adapters.psql.courier.CourierRepositoryImpl
-import com.blomo.infrastructure.adapters.psql.courier.entity.CourierEntity
-import com.blomo.infrastructure.adapters.psql.courier.repository.CourierRepositoryInfr
 import com.blomo.infrastructure.adapters.psql.order.OrderRepositoryImpl
 import com.blomo.infrastructure.adapters.psql.order.entity.OrderEntity
 import com.blomo.infrastructure.adapters.psql.order.repository.OrderRepositoryInfr
@@ -60,7 +56,7 @@ class OrderRepositoryImplTest {
             Courier(name = "Vasya", transport = Transport(name = "Car", speed = Speed(2)), _location = Location(1, 1))
 
         orderRepositoryImpl.add(order)
-        order.assigne(courier)
+        order.assign(courier)
         orderRepositoryImpl.update(order)
 
         val result: OrderEntity? = orderRepositoryInfr.findByIdOrNull(order.id)
@@ -95,7 +91,7 @@ class OrderRepositoryImplTest {
         val order2 = Order(id = UUID.randomUUID(), location = Location(1, 1))
         val order3 = Order(id = UUID.randomUUID(), location = Location(1, 1))
 
-        order2.assigne(courier)
+        order2.assign(courier)
 
         orderRepositoryImpl.add(order1)
         orderRepositoryImpl.add(order3)
@@ -118,7 +114,7 @@ class OrderRepositoryImplTest {
         val order2 = Order(id = UUID.randomUUID(), location = Location(1, 1))
         val order3 = Order(id = UUID.randomUUID(), location = Location(1, 1))
 
-        order2.assigne(courier)
+        order2.assign(courier)
 
         orderRepositoryImpl.add(order1)
         orderRepositoryImpl.add(order3)

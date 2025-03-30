@@ -5,14 +5,13 @@ import com.blomo.core.domain.aggregates.courier.CourierStatus
 import com.blomo.core.domain.aggregates.courier.Speed
 import com.blomo.core.domain.aggregates.courier.Transport
 import com.blomo.core.domain.aggregates.order.Order
-import com.blomo.core.domain.services.DispatchServieImpl
 import com.blomo.core.domain.shared.kernel.Location
 import java.util.*
 import org.assertj.core.api.Assertions
 import org.junit.jupiter.api.Test
 
-class DispatchServieImplTest {
-    private val dispatchServie = DispatchServieImpl()
+class DispatchServiceImplTest {
+    private val dispatchServie = DispatchServiceImpl()
 
     @Test
     fun shouldAssignFirstFreeCourierBasedOnTime() {
