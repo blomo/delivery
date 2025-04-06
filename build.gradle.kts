@@ -7,6 +7,7 @@ plugins {
     id("io.spring.dependency-management") version "1.1.6"
     kotlin("plugin.jpa") version "1.8.21"
     kotlin("plugin.allopen") version "1.8.21"
+    id("org.openapi.generator") version "7.12.0"
 }
 
 group = "com.blomo"
@@ -100,4 +101,34 @@ kotlin {
     compilerOptions {
         freeCompilerArgs.addAll("-Xjsr305=strict")
     }
+}
+
+openApiGenerate {
+    generatorName.set("kotlin-spring")
+    inputSpec.set("$projectDir/src/main/resources/openapi/openapi.yaml")
+    apiPackage.set("com.blomo.api.adapters.http")
+    modelPackage.set("com.blomo.api.adapters.http.api.model")
+    outputDir.set("$buildDir/generated/openapi")
+    configOptions.set(
+        mapOf(
+            "interfaceOnly" to "true",
+            "useTags" to "true",
+            "skipDefaultInterface" to "false",
+            "sourceFolder" to "src/main/kotlin",
+            "useJakartaEe" to "true",
+            "useSpringBoot3" to "true",
+        )
+    )
+}
+
+sourceSets {
+    main {
+        kotlin {
+            srcDir("$buildDir/generated/openapi/src/main/kotlin")
+        }
+    }
+}
+
+tasks.compileKotlin {
+    dependsOn(tasks.openApiGenerate)
 }

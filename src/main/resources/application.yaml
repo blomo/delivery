@@ -1,13 +1,13 @@
 server:
-  port: 4040
+  port: 8082
 
 spring:
   application:
     name: delivery
   datasource:
     url: jdbc:postgresql://localhost:5432/delivery?currentSchema=delivery
-    username: postgres
-    password: postgres
+    username: username
+    password: secret
   jpa:
     hibernate:
       ddl-auto: validate
