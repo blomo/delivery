@@ -26,7 +26,7 @@ class OrderTest {
             _location = Location(1, 1)
         )
 
-        order.assigne(courier)
+        order.assign(courier)
 
         Assertions.assertThat(order.status).isEqualTo(OrderStatus.ASSIGNED)
         Assertions.assertThat(order.courierId).isEqualTo(courier.id)
@@ -42,7 +42,7 @@ class OrderTest {
             _location = Location(1, 1)
         )
 
-        order.assigne(courier)
+        order.assign(courier)
         order.complete()
 
         Assertions.assertThat(order.status).isEqualTo(OrderStatus.COMPLETED)

@@ -1,5 +1,6 @@
 package com.blomo.infrastructure.adapters.psql.order
 
+import com.blomo.core.application.usecases.queries.dto.order.NotCompletedOrder
 import com.blomo.core.domain.aggregates.order.Order
 import com.blomo.core.domain.aggregates.order.OrderStatus
 import com.blomo.core.ports.order.OrderRepository
@@ -45,5 +46,8 @@ class OrderRepositoryImpl(
         orderRepository
             .findAllByStatus(status = OrderStatus.ASSIGNED)
             .map(OrderEntity::toOrder)
+
+    override fun getAllNotCompleted(): List<NotCompletedOrder> =
+        orderRepository.findAllNotCompleted()
 
 }

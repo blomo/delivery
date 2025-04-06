@@ -1,5 +1,6 @@
 package com.blomo.core.ports.courier
 
+import com.blomo.core.application.usecases.queries.dto.courier.BusyCourier
 import com.blomo.core.domain.aggregates.courier.Courier
 import java.util.*
 
@@ -8,4 +9,5 @@ interface CourierRepository {
     fun update(courier: Courier): Courier
     fun getById(id: UUID): Courier?
     fun getAllByStatusFree(): List<Courier>
+    fun getAllBusy(): List<BusyCourier>
 }
