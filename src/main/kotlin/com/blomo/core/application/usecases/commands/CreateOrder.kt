@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component
 class CreateOrder(
     private val orderRepository: OrderRepository,
     private val geoClient: GeoClient,
-    ) {
+) {
 
     fun execute(createOrder: CreateOrderDto): Order =
         Order(id = createOrder.basketId, location = findLocation(createOrder.street)).also {
