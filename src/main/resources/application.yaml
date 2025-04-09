@@ -2,6 +2,12 @@ server:
   port: 8082
 
 spring:
+  kafka:
+    bootstrap-servers: localhost:9092
+    consumer:
+      group-id: "basket.groupid"
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: com.blomo.api.adapters.kafka.basket.deserializer.ProtoMessageDeserializer
   application:
     name: delivery
   datasource:

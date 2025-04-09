@@ -69,6 +69,8 @@ dependencies {
     implementation("io.grpc:grpc-protobuf:$grpcVersion")
     implementation("com.google.protobuf:protobuf-kotlin:$protobufVersion")
 
+    implementation("org.springframework.kafka:spring-kafka:3.3.4")
+
 
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("io.projectreactor:reactor-test")
@@ -137,7 +139,10 @@ openApiGenerate {
 sourceSets {
     main {
         proto {
-            srcDir("src/main/kotlin/com/blomo/infrastructure/adapters/grpc/order/proto")
+            srcDirs(
+                "src/main/kotlin/com/blomo/infrastructure/adapters/grpc/order/proto",
+                "src/main/kotlin/com/blomo/api/adapters/kafka/basket/proto"
+            )
         }
         kotlin {
             srcDir("$buildDir/generated/openapi/src/main/kotlin")
