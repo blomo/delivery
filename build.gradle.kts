@@ -1,3 +1,4 @@
+import com.google.protobuf.gradle.id
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
@@ -8,10 +9,15 @@ plugins {
     kotlin("plugin.jpa") version "1.8.21"
     kotlin("plugin.allopen") version "1.8.21"
     id("org.openapi.generator") version "7.12.0"
+    id("com.google.protobuf") version "0.9.5"
 }
 
 group = "com.blomo"
 version = "0.0.1-SNAPSHOT"
+
+val protobufVersion = "4.29.4"
+val grpcVersion = "1.71.0"
+val grpcKotlinVersion = "1.4.1"
 
 java {
     toolchain {
@@ -56,6 +62,13 @@ dependencies {
     api("com.fasterxml.uuid:java-uuid-generator:5.1.0")
 
     implementation("org.liquibase:liquibase-core")
+
+
+    api("io.grpc:grpc-kotlin-stub:$grpcKotlinVersion")
+    api("io.grpc:grpc-netty-shaded:1.70.0")
+    implementation("io.grpc:grpc-protobuf:$grpcVersion")
+    implementation("com.google.protobuf:protobuf-kotlin:$protobufVersion")
+
 
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("io.projectreactor:reactor-test")
@@ -123,6 +136,9 @@ openApiGenerate {
 
 sourceSets {
     main {
+        proto {
+            srcDir("src/main/kotlin/com/blomo/infrastructure/adapters/grpc/order/proto")
+        }
         kotlin {
             srcDir("$buildDir/generated/openapi/src/main/kotlin")
         }
@@ -131,4 +147,29 @@ sourceSets {
 
 tasks.compileKotlin {
     dependsOn(tasks.openApiGenerate)
+}
+
+protobuf {
+    protoc {
+        artifact = "com.google.protobuf:protoc:$protobufVersion"
+    }
+    plugins {
+        create("grpc") {
+            artifact = "io.grpc:protoc-gen-grpc-java:$grpcVersion"
+        }
+        create("grpckt") {
+            artifact = "io.grpc:protoc-gen-grpc-kotlin:$grpcKotlinVersion:jdk8@jar"
+        }
+    }
+    generateProtoTasks {
+        all().forEach {
+            it.plugins {
+                create("grpc")
+                create("grpckt")
+            }
+            it.builtins {
+                create("kotlin")
+            }
+        }
+    }
 }

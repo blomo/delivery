@@ -29,3 +29,8 @@ logging:
   level:
     com.blomo: debug
 
+application:
+  infrastructure:
+    grpc:
+      host: localhost
+      port: 5004
