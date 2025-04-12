@@ -1,4 +1,14 @@
 spring:
+  kafka:
+    bootstrap-servers: localhost:9092
+    consumer:
+      group-id: "basket.groupid"
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: com.blomo.api.adapters.kafka.basket.deserializer.ProtoMessageDeserializer
+  datasource:
+    url: jdbc:postgresql://localhost:5432/delivery?currentSchema=delivery
+    username: postgres
+    password: postgres
   jpa:
     hibernate:
       ddl-auto: none
@@ -8,3 +18,9 @@ spring:
       hibernate.format_sql: true
   liquibase:
     default-schema: delivery
+
+application:
+  infrastructure:
+    grpc:
+      host: localhost
+      port: 5004
