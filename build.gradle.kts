@@ -1,3 +1,4 @@
+import com.google.protobuf.gradle.id
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
@@ -7,10 +8,16 @@ plugins {
     id("io.spring.dependency-management") version "1.1.6"
     kotlin("plugin.jpa") version "1.8.21"
     kotlin("plugin.allopen") version "1.8.21"
+    id("org.openapi.generator") version "7.12.0"
+    id("com.google.protobuf") version "0.9.5"
 }
 
 group = "com.blomo"
 version = "0.0.1-SNAPSHOT"
+
+val protobufVersion = "4.29.4"
+val grpcVersion = "1.71.0"
+val grpcKotlinVersion = "1.4.1"
 
 java {
     toolchain {
@@ -56,6 +63,15 @@ dependencies {
 
     implementation("org.liquibase:liquibase-core")
 
+
+    api("io.grpc:grpc-kotlin-stub:$grpcKotlinVersion")
+    api("io.grpc:grpc-netty-shaded:1.70.0")
+    implementation("io.grpc:grpc-protobuf:$grpcVersion")
+    implementation("com.google.protobuf:protobuf-kotlin:$protobufVersion")
+
+    implementation("org.springframework.kafka:spring-kafka:3.3.4")
+
+
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("io.projectreactor:reactor-test")
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit5")
@@ -99,5 +115,66 @@ dependencyManagement {
 kotlin {
     compilerOptions {
         freeCompilerArgs.addAll("-Xjsr305=strict")
+    }
+}
+
+openApiGenerate {
+    generatorName.set("kotlin-spring")
+    inputSpec.set("$projectDir/src/main/resources/openapi/openapi.yaml")
+    apiPackage.set("com.blomo.api.adapters.http")
+    modelPackage.set("com.blomo.api.adapters.http.api.model")
+    outputDir.set("$buildDir/generated/openapi")
+    configOptions.set(
+        mapOf(
+            "interfaceOnly" to "true",
+            "useTags" to "true",
+            "skipDefaultInterface" to "false",
+            "sourceFolder" to "src/main/kotlin",
+            "useJakartaEe" to "true",
+            "useSpringBoot3" to "true",
+        )
+    )
+}
+
+sourceSets {
+    main {
+        proto {
+            srcDirs(
+                "src/main/kotlin/com/blomo/infrastructure/adapters/grpc/order/proto",
+                "src/main/kotlin/com/blomo/api/adapters/kafka/basket/proto"
+            )
+        }
+        kotlin {
+            srcDir("$buildDir/generated/openapi/src/main/kotlin")
+        }
+    }
+}
+
+tasks.compileKotlin {
+    dependsOn(tasks.openApiGenerate)
+}
+
+protobuf {
+    protoc {
+        artifact = "com.google.protobuf:protoc:$protobufVersion"
+    }
+    plugins {
+        create("grpc") {
+            artifact = "io.grpc:protoc-gen-grpc-java:$grpcVersion"
+        }
+        create("grpckt") {
+            artifact = "io.grpc:protoc-gen-grpc-kotlin:$grpcKotlinVersion:jdk8@jar"
+        }
+    }
+    generateProtoTasks {
+        all().forEach {
+            it.plugins {
+                create("grpc")
+                create("grpckt")
+            }
+            it.builtins {
+                create("kotlin")
+            }
+        }
     }
 }

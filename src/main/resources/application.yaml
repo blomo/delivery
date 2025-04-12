@@ -1,13 +1,19 @@
 server:
-  port: 4040
+  port: 8082
 
 spring:
+  kafka:
+    bootstrap-servers: localhost:9092
+    consumer:
+      group-id: "basket.groupid"
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: com.blomo.api.adapters.kafka.basket.deserializer.ProtoMessageDeserializer
   application:
     name: delivery
   datasource:
     url: jdbc:postgresql://localhost:5432/delivery?currentSchema=delivery
-    username: postgres
-    password: postgres
+    username: username
+    password: secret
   jpa:
     hibernate:
       ddl-auto: validate
@@ -29,3 +35,8 @@ logging:
   level:
     com.blomo: debug
 
+application:
+  infrastructure:
+    grpc:
+      host: localhost
+      port: 5004
