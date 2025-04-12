@@ -8,6 +8,11 @@ spring:
       group-id: "basket.groupid"
       key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
       value-deserializer: com.blomo.api.adapters.kafka.basket.deserializer.ProtoMessageDeserializer
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: com.blomo.infrastructure.adapters.kafka.serializer.ProtoMessageSerializer
+    template:
+      default-topic: "order.status.changed"
   application:
     name: delivery
   datasource:
