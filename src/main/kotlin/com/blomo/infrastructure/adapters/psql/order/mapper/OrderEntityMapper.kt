@@ -11,7 +11,10 @@ fun Order.toOrderEntity(): OrderEntity =
         status = status,
         courierId = courierId,
         location = location.toLocationEntity(),
-    )
+    ).also {
+        it.registerEvents(domainEvents)
+        this.clearDomainEvents()
+    }
 
 
 fun OrderEntity.toOrder(): Order = Order.fromDb(

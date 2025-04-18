@@ -141,7 +141,8 @@ sourceSets {
         proto {
             srcDirs(
                 "src/main/kotlin/com/blomo/infrastructure/adapters/grpc/order/proto",
-                "src/main/kotlin/com/blomo/api/adapters/kafka/basket/proto"
+                "src/main/kotlin/com/blomo/api/adapters/kafka/basket/proto",
+                "src/main/kotlin/com/blomo/infrastructure/adapters/kafka/proto"
             )
         }
         kotlin {
